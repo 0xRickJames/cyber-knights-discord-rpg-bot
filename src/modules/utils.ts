@@ -1,9 +1,13 @@
 import { MersenneTwister19937, Random } from 'random-js'
-//import { Armor } from "./Armor";
-//import { Weapon } from "./Weapon";
+
+import { Armor } from '../classes/Armor'
+import { Weapon } from '../classes/Weapon'
+import { Skill } from '../classes/Skill'
+import { Spell } from '../classes/Spell'
 
 export const BLUE = '#0000FF'
 export const RED = '#FF0000'
+export const PURPLE = '#800080'
 export const GREEN = '#008000'
 export const GOLD = '#ffd700'
 export const BROWN = '#c66a10'
@@ -20,7 +24,7 @@ export function sleep(time: number) {
 export const random = new Random(MersenneTwister19937.autoSeed())
 
 export function formatPercent(num: number) {
-  return `${(num * 100).toFixed(1)}%`
+  return `${(num * 100).toFixed(0)}%`
 }
 
 export function inlineCode(str: string | number) {
@@ -34,28 +38,26 @@ export function bold(str: string | number) {
 export function isEven(num: number) {
   return num % 2 === 0
 }
-/*
 export function getRandomWeaponIndex(arr: Weapon[]) {
-
   // get random index value
-  const randomIndex = Math.floor(Math.random() * arr.length);
-
-  // get random item
-  //const item = arr[randomIndex];
-
-  return randomIndex;
+  const randomIndex = Math.floor(Math.random() * arr.length)
+  return randomIndex
 }
 export function getRandomArmorIndex(arr: Armor[]) {
-
   // get random index value
-  const randomIndex = Math.floor(Math.random() * arr.length);
-
-  // get random item
-  //const item = arr[randomIndex];
-
-  return randomIndex;
+  const randomIndex = Math.floor(Math.random() * arr.length)
+  return randomIndex
 }
-*/
+export function getRandomSkillIndex(arr: Skill[]) {
+  // get random index value
+  const randomIndex = Math.floor(Math.random() * arr.length)
+  return randomIndex
+}
+export function getRandomSpellIndex(arr: Spell[]) {
+  // get random index value
+  const randomIndex = Math.floor(Math.random() * arr.length)
+  return randomIndex
+}
 export function getLevelFromExp(exp: number): number {
   return Math.floor((-1 + Math.sqrt(1 + (8 * exp) / 100)) / 2) + 1
 }

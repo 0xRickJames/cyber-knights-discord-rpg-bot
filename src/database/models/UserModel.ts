@@ -12,12 +12,12 @@ export interface UserInt extends Document {
   equippedArmors: string[]
   equippedWeapons: string[]
   equippedItems: string[]
-  skill: string[]
-  spell: string[]
+  skills: string[]
+  spells: string[]
   class: string
   battleWins: number
   raidWins: number
-  achievements: Achievement[]
+  achievements: string[]
   walletAddress?: string
 }
 
@@ -28,17 +28,12 @@ export const User = new Schema({
   equippedArmors: [String],
   equippedWeapons: [String],
   equippedItems: [String],
-  skill: [String],
-  spell: [String],
+  skills: [String],
+  spells: [String],
   class: String,
   battleWins: Number,
   raidWins: Number,
-  achievements: [
-    {
-      title: { type: String, required: true },
-      description: { type: String, required: true },
-    },
-  ],
+  achievements: [String],
   walletAddress: { type: String, unique: true, sparse: true },
 })
 

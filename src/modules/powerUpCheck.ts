@@ -9,89 +9,159 @@ import { getLevelFromExp } from './utils'
 
 import { Fighter } from '../classes/Fighter'
 import { Player } from '../classes/Player'
-//import * as skills from "../classes/Skill";
-//import * as weapons from "../classes/Weapon";
-//import * as armors from "../classes/Armor";
-//import * as spells from "../classes/Spell";
+import * as armors from '../classes/Armor'
+import * as weapons from '../classes/Weapon'
+import * as skills from '../classes/Skill'
+import * as spells from '../classes/Spell'
 //import * as items from "../classes/Item";
 
 export async function powerUpCheck(player: GuildMember, userint: string) {
   const user = await getUserData(userint)
   let fighter: Fighter = new Player(player, user)
 
-  //await skillsSpellsArmsCheck(fighter, user);
+  await skillsSpellsArmsCheck(fighter, user)
   fighter.exp = user.exp
   fighter.gold = user.gold
   fighter.battleWins = user.battleWins
   fighter.raidWins = user.raidWins
   return fighter
 }
-/*
+
 export async function skillsSpellsArmsCheck(fighter: Fighter, user: UserInt) {
   //  Armor Check
 
-  if (user.equippedArmors.includes("steel_breastplate")) {
-    const steel_breastplate = new armors.SteelBreastplate();
-    fighter.equipArmor(steel_breastplate);
-  } else if (user.equippedArmors.includes("leather_cuirass")) {
-    const leather_cuirass = new armors.LeatherCuirass();
-    fighter.equipArmor(leather_cuirass);
+  if (user.equippedArmors.includes('dragonscale_cuirass')) {
+    const dragonscale_cuirass = new armors.DragonscaleCuirass()
+    fighter.equipArmor(dragonscale_cuirass)
+  } else if (user.equippedArmors.includes('steel_cuirass')) {
+    const steel_cuirass = new armors.SteelCuirass()
+    fighter.equipArmor(steel_cuirass)
+  } else if (user.equippedArmors.includes('leather_cuirass')) {
+    const leather_cuirass = new armors.LeatherCuirass()
+    fighter.equipArmor(leather_cuirass)
   }
-  if (user.equippedArmors.includes("steel_helm")) {
-    const steel_helm = new armors.SteelHelm();
-    fighter.equipArmor(steel_helm);
-  } else if (user.equippedArmors.includes("leather_helmet")) {
-    const leather_helmet = new armors.LeatherHelmet();
-    fighter.equipArmor(leather_helmet);
+  if (user.equippedArmors.includes('dragonscale_pauldrons')) {
+    const dragonscale_pauldrons = new armors.DragonscalePauldrons()
+    fighter.equipArmor(dragonscale_pauldrons)
+  } else if (user.equippedArmors.includes('steel_pauldrons')) {
+    const steel_pauldrons = new armors.SteelPauldrons()
+    fighter.equipArmor(steel_pauldrons)
+  } else if (user.equippedArmors.includes('leather_pauldrons')) {
+    const leather_pauldrons = new armors.LeatherPauldrons()
+    fighter.equipArmor(leather_pauldrons)
   }
-  if (user.equippedArmors.includes("steel_greaves")) {
-    const steel_greaves = new armors.SteelGreaves();
-    fighter.equipArmor(steel_greaves);
-  } else if (user.equippedArmors.includes("leather_boots")) {
-    const leather_boots = new armors.LeatherBoots();
-    fighter.equipArmor(leather_boots);
-  }
-  if (user.equippedArmors.includes("steel_gauntlets")) {
-    const steel_gauntlets = new armors.SteelGauntlets();
-    fighter.equipArmor(steel_gauntlets);
-  } else if (user.equippedArmors.includes("leather_gloves")) {
-    const leather_gloves = new armors.LeatherGloves();
-    fighter.equipArmor(leather_gloves);
+  if (user.equippedArmors.includes('dragonscale_greaves')) {
+    const dragonscale_greaves = new armors.DragonscaleGreaves()
+    fighter.equipArmor(dragonscale_greaves)
+  } else if (user.equippedArmors.includes('steel_greaves')) {
+    const steel_greaves = new armors.SteelGreaves()
+    fighter.equipArmor(steel_greaves)
+  } else if (user.equippedArmors.includes('leather_greaves')) {
+    const leather_greaves = new armors.LeatherGreaves()
+    fighter.equipArmor(leather_greaves)
   }
 
   // Weapons check
 
-  if (user.equippedWeapons.includes("heavy_crossbow")) {
-    const heavy_crossbow = new weapons.HeavyCrossbow();
-    fighter.equipWeapon(heavy_crossbow);
-  } else if (user.equippedWeapons.includes("hand_crossbow")) {
-    const hand_crossbow = new weapons.HandCrossbow();
-    fighter.equipWeapon(hand_crossbow);
+  if (user.equippedWeapons.includes('mithril_sword')) {
+    const mithril_sword = new weapons.MithrilSword()
+    fighter.equipWeapon(mithril_sword)
+  } else if (user.equippedWeapons.includes('bronze_sword')) {
+    const bronze_sword = new weapons.BronzeSword()
+    fighter.equipWeapon(bronze_sword)
+  } else if (user.equippedWeapons.includes('iron_sword')) {
+    const iron_sword = new weapons.IronSword()
+    fighter.equipWeapon(iron_sword)
   }
-  if (user.equippedWeapons.includes("steel_greataxe")) {
-    const steel_greataxe = new weapons.SteelGreataxe();
-    fighter.equipWeapon(steel_greataxe);
-  } else if (user.equippedWeapons.includes("steel_mace")) {
-    const steel_mace = new weapons.SteelMace();
-    fighter.equipWeapon(steel_mace);
+  if (user.equippedWeapons.includes('mithril_mace')) {
+    const mithril_mace = new weapons.MithrilMace()
+    fighter.equipWeapon(mithril_mace)
+  } else if (user.equippedWeapons.includes('bronze_mace')) {
+    const bronze_mace = new weapons.BronzeMace()
+    fighter.equipWeapon(bronze_mace)
+  } else if (user.equippedWeapons.includes('iron_mace')) {
+    const iron_mace = new weapons.IronMace()
+    fighter.equipWeapon(iron_mace)
   }
-  if (user.equippedWeapons.includes("musket_rifle")) {
-    const musket_rifle = new weapons.MusketRifle();
-    fighter.equipWeapon(musket_rifle);
-  } else if (user.equippedWeapons.includes("musket_pistol")) {
-    const musket_pistol = new weapons.MusketPistol();
-    fighter.equipWeapon(musket_pistol);
+  if (user.equippedWeapons.includes('mithril_greataxe')) {
+    const mithril_greataxe = new weapons.MithrilGreataxe()
+    fighter.equipWeapon(mithril_greataxe)
+  } else if (user.equippedWeapons.includes('bronze_greataxe')) {
+    const bronze_greataxe = new weapons.BronzeGreataxe()
+    fighter.equipWeapon(bronze_greataxe)
+  } else if (user.equippedWeapons.includes('iron_greataxe')) {
+    const iron_greataxe = new weapons.IronGreataxe()
+    fighter.equipWeapon(iron_greataxe)
   }
-  if (user.equippedWeapons.includes("steel_longsword")) {
-    const steel_longsword = new weapons.SteelLongsword();
-    fighter.equipWeapon(steel_longsword);
-  } else if (user.equippedWeapons.includes("steel_dagger")) {
-    const steel_dagger = new weapons.SteelDagger();
-    fighter.equipWeapon(steel_dagger);
+
+  // Skills Check
+
+  if (user.skills.includes('master_disarm')) {
+    const master_disarm = new skills.MasterDisarm()
+    fighter.addSkill(master_disarm)
+  } else if (user.skills.includes('expert_disarm')) {
+    const expert_disarm = new skills.ExpertDisarm()
+    fighter.addSkill(expert_disarm)
+  } else if (user.skills.includes('novice_disarm')) {
+    const novice_disarm = new skills.NoviceDisarm()
+    fighter.addSkill(novice_disarm)
+  }
+  if (user.skills.includes('master_sunder')) {
+    const master_sunder = new skills.MasterSunder()
+    fighter.addSkill(master_sunder)
+  } else if (user.skills.includes('expert_sunder')) {
+    const expert_sunder = new skills.ExpertSunder()
+    fighter.addSkill(expert_sunder)
+  } else if (user.skills.includes('novice_sunder')) {
+    const novice_sunder = new skills.NoviceSunder()
+    fighter.addSkill(novice_sunder)
+  }
+  if (user.skills.includes('master_demoralize')) {
+    const master_demoralize = new skills.MasterDemoralize()
+    fighter.addSkill(master_demoralize)
+  } else if (user.skills.includes('expert_demoralize')) {
+    const expert_demoralize = new skills.ExpertDemoralize()
+    fighter.addSkill(expert_demoralize)
+  } else if (user.skills.includes('novice_demoralize')) {
+    const novice_demoralize = new skills.NoviceDemoralize()
+    fighter.addSkill(novice_demoralize)
+  }
+
+  // Spell check
+
+  if (user.spells.includes('supreme_fireball')) {
+    const supreme_fireball = new spells.SupremeFireball()
+    fighter.addSpell(supreme_fireball)
+  } else if (user.spells.includes('greater_fireball')) {
+    const greater_fireball = new spells.GreaterFireball()
+    fighter.addSpell(greater_fireball)
+  } else if (user.spells.includes('lesser_fireball')) {
+    const lesser_fireball = new spells.LesserFireball()
+    fighter.addSpell(lesser_fireball)
+  }
+  if (user.spells.includes('supreme_mending')) {
+    const supreme_mending = new spells.SupremeMending()
+    fighter.addSpell(supreme_mending)
+  } else if (user.spells.includes('greater_mending')) {
+    const greater_mending = new spells.GreaterMending()
+    fighter.addSpell(greater_mending)
+  } else if (user.spells.includes('lesser_mending')) {
+    const lesser_mending = new spells.LesserMending()
+    fighter.addSpell(lesser_mending)
+  }
+  if (user.spells.includes('supreme_drain')) {
+    const supreme_drain = new spells.SupremeDrain()
+    fighter.addSpell(supreme_drain)
+  } else if (user.spells.includes('greater_drain')) {
+    const greater_drain = new spells.GreaterDrain()
+    fighter.addSpell(greater_drain)
+  } else if (user.spells.includes('lesser_drain')) {
+    const lesser_drain = new spells.LesserDrain()
+    fighter.addSpell(lesser_drain)
   }
 
   // Item Check
-
+  /*
   if (user.equippedItems.includes("holy_water")) {
     const holy_water = new items.HolyWater();
     fighter.equipItem(holy_water);
@@ -109,38 +179,7 @@ export async function skillsSpellsArmsCheck(fighter: Fighter, user: UserInt) {
     fighter.equipItem(poison_vial);
   }
 
-  // Spell check
 
-  if (user.spell == "fireball") {
-    const fireball = new spells.Fireball();
-    fireball.setOwner(fighter);
-  }
-  if (user.spell == "heal") {
-    const heal = new spells.Heal();
-    heal.setOwner(fighter);
-  }
-  if (user.spell == "divine_intervention") {
-    const divine_intervention = new spells.DivineIntervention();
-    divine_intervention.setOwner(fighter);
-  }
-  if (user.spell == "feeblemind") {
-    const feeblemind = new spells.Feeblemind();
-    feeblemind.setOwner(fighter);
-  }
-
-  // Skill Check
-
-  if (user.skill == "combat_tactics") {
-    fighter.skill = new skills.CombatTactics();
-  }
-  if (user.skill == "stun_attack") {
-    fighter.skill = new skills.StunAttack();
-  }
-  if (user.skill == "demoralize") {
-    fighter.skill = new skills.Demoralize();
-  }
-  if (user.skill == "disarm") {
-    fighter.skill = new skills.Disarm();
-  }
-}
+    
   */
+}

@@ -1,10 +1,10 @@
 import { User, GuildMember } from 'discord.js'
 
+import { Fighter } from './Fighter'
+
 import { UserInt } from '../database/models/UserModel'
 
 import { getLevelFromExp } from '../modules/utils'
-
-import { Fighter } from './Fighter'
 
 // Player extends Fighter and it used to easily create Fighter class based on
 // discord.js User.
@@ -24,37 +24,47 @@ export class Player extends Fighter {
     this.level = getLevelFromExp(userInt.exp)
     this.class = userInt.class
     this.critChance = (5 + this.level) * 0.01
-    this.critDamage = 1.1 + this.level * 0.1
-    this.classBonus = (0.5263 * this.level + 4.4737) * 0.01
+    this.critDamage = 1 + this.level * 0.1
     switch (this.class) {
       case 'barbarian':
-        this.hp = 120 + (this.level - 1) * 10
-        this.attack = 10 + (this.level - 1) * 5
-        this.armor = 5 + (this.level - 1) * 2
-        this.finesse = this.level * 0.02
-        this.intellect = this.level * 0.01
+        this.hp = 75 + this.level * 15
+        this.maxHp = 75 + this.level * 15
+        this.strength = 10 + this.level * 3
+        this.endurance = 5 + this.level * 2
+        this.finesse = 5 + this.level * 2
+        this.intellect = 5 + this.level * 0
         break
       case 'knight':
-        this.attack = 8 + (this.level - 1) * 2
-        this.hp = 140 + (this.level - 1) * 20
-        this.armor = 10 + (this.level - 1) * 10
-        this.finesse = this.level * 0.02
-        this.intellect = this.level * 0.01
+        this.hp = 80 + this.level * 20
+        this.maxHp = 80 + this.level * 20
+        this.strength = 5 + this.level * 2
+        this.endurance = 10 + this.level * 3
+        this.finesse = 5 + this.level * 0
+        this.intellect = 5 + this.level * 2
         break
       case 'mage':
-        this.attack = 4 + (this.level - 1)
-        this.hp = 100 + (this.level - 1) * 5
-        this.armor = 2 + (this.level - 1) * 2
-        this.finesse = this.level * 0.02
-        this.intellect = (10 + this.level) * 0.02
+        this.hp = 61 + this.level * 9
+        this.maxHp = 61 + this.level * 9
+        this.strength = 5 + this.level * 1
+        this.endurance = 5 + this.level * 1
+        this.finesse = 5 + this.level * 1
+        this.intellect = 10 + this.level * 4
         break
       case 'rogue':
-        this.attack = 7 + (this.level - 1) * 2
-        this.hp = 110 + (this.level - 1) * 8
-        this.armor = 3 + (this.level - 1) * 2
-        this.finesse = (10 + this.level - 1) * 0.02
-        this.intellect = this.level * 0.01
+        this.hp = 68 + this.level * 12
+        this.maxHp = 68 + this.level * 12
+        this.strength = 5 + this.level * 2
+        this.endurance = 5 + this.level * 2
+        this.finesse = 10 + this.level * 3
+        this.intellect = 5 + this.level * 1
+        break
       default:
+        this.hp = 60 + this.level * 5
+        this.maxHp = 60 + this.level * 5
+        this.strength = 5 + this.level
+        this.endurance = 5 + this.level
+        this.finesse = 5 + this.level * 0
+        this.intellect = 5 + this.level * 0
         break
     }
   }

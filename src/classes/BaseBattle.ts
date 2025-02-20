@@ -110,11 +110,13 @@ export abstract class BaseBattle {
 
   protected attack(p1: Fighter, p2: Fighter) {
     const isCrit = p1.isCrit()
-    const attackRate = isCrit ? p1.attack * p1.critDamage : p1.attack
-    const armorProtection = p2.armor * attackRate
-    const damageDealt = attackRate - armorProtection
+    const strengthOrOne = p1.strength > 0 ? p1.strength : 1
+    const enduranceOrOne = p2.endurance > 0 ? p2.endurance : 1
+    const attackModifier = strengthOrOne * p1.attack + strengthOrOne
+    const defense = enduranceOrOne * p2.defense + enduranceOrOne
+    const attack = isCrit ? attackModifier * p1.critDamage : attackModifier
+    const damageDealt = Math.round(attack ** 2 / (attack + defense))
     const critText = isCrit ? ` (x${p1.critDamage.toFixed(1)}) 🎯` : ''
-
     p2.hp -= damageDealt
 
     const battleEmbed = new EmbedBuilder().setColor(RED).addFields(
@@ -122,17 +124,17 @@ export abstract class BaseBattle {
       { name: 'Defending Player', value: p2.name, inline: true },
       { name: 'Round', value: `\`${this.round.toString()}\``, inline: true },
       {
-        name: 'Attack Rate',
-        value: `\`${Math.round(attackRate)}${critText}\``,
+        name: 'Attack',
+        value: `\`${Math.round(attack)}${critText}\``,
         inline: true,
       },
       {
-        name: 'Damage Reduction',
-        value: `\`${Math.round(armorProtection)}\``,
+        name: 'Defense',
+        value: `\`${Math.round(defense)}\``,
         inline: true,
       },
       {
-        name: 'Damage Done',
+        name: 'Damage',
         value: `\`${Math.round(damageDealt)}\``,
         inline: true,
       }

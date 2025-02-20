@@ -8,9 +8,15 @@ import {
   updateXP,
 } from "../modules/updateUserData";
 */
-import { GOLD, random } from '../modules/utils'
+import {
+  getRandomSkillIndex,
+  getRandomSpellIndex,
+  GOLD,
+  random,
+} from '../modules/utils'
 import { Fighter } from './Fighter'
 import { BaseBattle } from './BaseBattle'
+import { NoSkill, Skill } from './Skill'
 //import { Demoralize } from "./Skill";
 
 /**
@@ -76,37 +82,59 @@ export class Battle extends BaseBattle {
       if (player.poisoned) player.hp -= player.poisoned
       if (player.poisons) opponent.poisoned += player.poisons
 
-      /*
+      let playerSkillChance =
+        player.class === 'rogue'
+          ? random.bool((player.finesse + player.level) * 0.01)
+          : player.class === 'mage' || player.class === 'barbarian'
+          ? random.bool(player.finesse * 0.01)
+          : false
+      let opponentSkillChance =
+        opponent.class === 'rogue'
+          ? random.bool((opponent.finesse + opponent.level) * 0.01)
+          : opponent.class === 'mage' || opponent.class === 'barbarian'
+          ? random.bool(opponent.finesse * 0.01)
+          : false
+      let playerRandomSkill
+      let opponentRandomSkill
 
-      const playerSkillIntercept = player.skill?.intercept();
-      const opponentSkillIntercept = opponent.skill?.intercept();
+      if (playerSkillChance && player.skills.length > 0) {
+        const playerRandomSkillIndex = getRandomSkillIndex(player.skills)
+        playerRandomSkill = player.skills[playerRandomSkillIndex]
 
-      if (playerSkillIntercept) {
-        if (player.skill?.name === "Demoralize" && opponent.skillActive) {
-          opponent.skillActive = false;
-          opponent.skill?.close(opponent, player);
-        }
-        const skillEmbed = player.skill!.use(player, opponent);
-        await this.updateEmbed(skillEmbed);
-        this.showBattle && (await this.sleep());
+        const skillEmbed = playerRandomSkill!.use(player, opponent)
+        await this.updateEmbed(skillEmbed)
+        this.showBattle && (await this.sleep())
+        playerSkillChance = random.bool(
+          player.finesse + playerRandomSkill.level * 10 * 0.01
+        )
       }
 
-      if (opponentSkillIntercept) {
-        if (opponent.skill?.name === "Demoralize" && player.skillActive) {
-          player.skillActive = false;
-          player.skill?.close(player, opponent);
-        }
-        const skillEmbed = opponent.skill!.use(opponent, player);
-        await this.updateEmbed(skillEmbed);
-        this.showBattle && (await this.sleep());
+      if (opponentSkillChance && opponent.skills.length > 0) {
+        const opponentRandomSkillIndex = getRandomSkillIndex(opponent.skills)
+        opponentRandomSkill = opponent.skills[opponentRandomSkillIndex]
+
+        const skillEmbed = opponentRandomSkill!.use(opponent, player)
+        await this.updateEmbed(skillEmbed)
+        this.showBattle && (await this.sleep())
+        opponentSkillChance = random.bool(
+          opponent.finesse + opponentRandomSkill.level * 10 * 0.01
+        )
       }
 
-      if (player.spell?.isIntercept()) {
-        const spellEmbed = player.spell.intercept(opponent, player);
-        await this.updateEmbed(spellEmbed);
-        this.showBattle && (await this.sleep());
+      let playerSpellChance =
+        player.class === 'mage'
+          ? random.bool((player.intellect + player.level) * 0.01)
+          : player.class === 'knight' || player.class === 'rogue'
+          ? random.bool(player.intellect * 0.01)
+          : false
+
+      if (playerSpellChance && player.spells.length > 0) {
+        const randomSpellIndex = getRandomSpellIndex(player.spells)
+        const playerSpell = player.spells[randomSpellIndex]
+        const spellEmbed = playerSpell.cast(opponent, player)
+        await this.updateEmbed(spellEmbed!)
+        this.showBattle && (await this.sleep())
       }
-        */
 
       const battleEmbed = this.attack(player, opponent)
 
@@ -164,15 +192,15 @@ export class Battle extends BaseBattle {
 
         if (battleQueue.length === 1) break
       }
-      /*
-      if (playerSkillIntercept) {
-        player.skill!.close(player, opponent);
+
+      if (playerSkillChance) {
+        playerRandomSkill!.close(player, opponent)
       }
 
-      if (opponentSkillIntercept) {
-        opponent.skill!.close(opponent, player);
+      if (opponentSkillChance) {
+        opponentRandomSkill!.close(opponent, player)
       }
-*/
+
       this.showBattle && (await this.sleep())
     }
 
